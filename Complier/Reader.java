@@ -18,7 +18,7 @@ public class Reader {
             if (!(line.isEmpty())) {
                 // Ignores comments
                 int i = 0;
-                while (line.charAt(i) == ' ') {
+                while (line.charAt(i) == ' ' && i < line.length() - 1) {
                     i++;
                 }
                 if (line.charAt(i) != '/') {

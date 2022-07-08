@@ -2,12 +2,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ParserAndCodeWriter extends Library {
+public class ParserAndCodeWriter extends Tokenizer {
 
     public void Parser(ArrayList<String> arr, String filename) throws IOException {
-
-        String file = filename.substring(0, filename.indexOf("."));
-        FileWriter fw = new FileWriter(file + ".xml");
+        String[] file = filename.split("/");
+        String fileName = file[file.length - 1].substring(0, file[file.length - 1].indexOf("."));
+        FileWriter fw = new FileWriter("./Output/" + fileName + ".xml");
 
         fw.append("<tokens>\n");
 
@@ -18,7 +18,7 @@ public class ParserAndCodeWriter extends Library {
 
             for (int i = 0; i < length; i++) {
                 String s = Character.toString(string.charAt(i));
-                //For String Constant
+                // For String Constant
                 if (s.equals("\"")) {
                     String some = s;
                     i++;
@@ -30,7 +30,7 @@ public class ParserAndCodeWriter extends Library {
                     }
                     i--;
                     fw.append(CodeWriter(some));
-                //To break word if symbol or space comes
+                    // To break word if symbol or space comes
                 } else if (symbols.contains(s) || string.charAt(i) == ' ') {
                     if (word != "")
                         fw.append(CodeWriter(word));
@@ -53,11 +53,15 @@ public class ParserAndCodeWriter extends Library {
 
         String s = Character.toString(word.charAt(0));
         String token = token(word);
-        //To remove " if word is String constant
+        // To remove " if word is String constant
         if (s.equals("\"")) {
             word = word.substring(1, word.length() - 1);
         }
-        String out = "<" + token + "> " + word + " </" + token + ">\n";
-        return out;
+        if (tokenMap.containsKey(word)) {
+            return "<" + token + "> " + tokenMap.get(word) + " </" + token + ">\n";
+        } else {
+            return "<" + token + "> " + word + " </" + token + ">\n";
+        }
+
     }
 }

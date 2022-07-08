@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
-public class Library {
+public class Tokenizer {
     static ArrayList<String> keyword = new ArrayList<>(Arrays.asList(
             "class",
             "constructor",
@@ -49,6 +50,14 @@ public class Library {
             """
                     \
                     """));
+
+    public static HashMap<String, String> tokenMap;
+    static {
+        tokenMap = new HashMap<>();
+        tokenMap.put("<", "&lt;");
+        tokenMap.put(">", "&gt;");
+        tokenMap.put("&", "&amp;");
+    }
 
     public static String token(String token) {
 
